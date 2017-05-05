@@ -81,7 +81,7 @@ echo pubpag($page, $noalbums, $heres, $offset);
 				}
 		
 		$ualbumartist = urlencode($albumartist);
-		$utrackname = urlencode($trackname);
+//		$utrackname = urlencode($trackname);
 		$utrackalbum = urlencode($trackalbum);
 			echo "<tr>";
 			echo "<td><a href='artistview.php?artist=$artistid'>$albumartist</a></td>";
