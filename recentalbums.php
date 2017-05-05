@@ -71,7 +71,7 @@ echo pubpag($page, $noalbums, $heres, $offset);
 		$albumid = $row['album_id'];
 		$artistid = $row['artist_id'];
 		
-			$sqlz = "select * from everything2 where albumid = '$albumid'";
+			$sqlz = "select * from tracks where album_id = '$albumid'";
 			$resultz = mysqli_query($con,$sqlz);
 			$rowz_cnt = mysqli_num_rows($resultz);
 				if ($rowz_cnt == 1) {
@@ -86,7 +86,7 @@ echo pubpag($page, $noalbums, $heres, $offset);
 			echo "<tr>";
 			echo "<td><a href='artistview.php?artist=$artistid'>$albumartist</a></td>";
 			// echo "<td><a href='refined.php?req=tracktitle&query=$utrackname'>$trackname</a></td>";
-			echo "<td><a href='albumview.php?req=albumid&query=$albumid'>$trackalbum</a> ($collection)</td>";
+			echo "<td><a href='albumview.php?req=albumid&query=$albumid'>$trackalbum</a> ($rowz_cnt $trk) ($collection)</td>";
 			//echo "<td>" . $trackname . "</td> ";
 			//echo "<td>" . $trackalbum . "</td> ";
 			echo "</tr>\n";
