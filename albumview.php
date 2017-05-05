@@ -120,9 +120,9 @@ include("header.php");			?>
                 if ($album_artist_id != $track_artist_id) { $various = "true"; } else { $various = "false"; }
 		echo "<div class='row'><div class='col-xs-12'><li>"; //row 3
 		 if($various == "true") {
-			echo "<a href='refined.php?req=trackartist&query=$artistid'><strong>$trackartist</strong></a> - ";
+			echo "<a href='search.php?artistidquery=$artistid'><strong>$trackartist</strong></a> - ";
 			} 
-			echo "<a href='refined.php?req=tracktitle&query=$utracktitle'>$tracktitle</a> ";
+			echo "<a href='search.php?trackquery=$utracktitle'>$tracktitle</a> ";
 			echo "<a href='json.php?artist=$utrackartist&track=$utracktitle'>";
 			//if ($spotifyuri != "") {
 //			echo "<img src='images/spotify.png'>";
