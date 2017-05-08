@@ -139,7 +139,7 @@ include("header.php");			?>
 		}
 		if ($spotifyuri != "") {
 	 echo "<div class='row'>";
-	 echo "<div class='col-xs-4' text-center>";
+	 echo "<div class='col-sm-4 hidden-xs' text-center>";
 	 echo "<iframe src=\"https://embed.spotify.com/?uri=$spotifyuri\" width=\"300\" height=\"380\" frameborder=\"0\" allowtransparency=\"true\"></iframe>";
 	 echo "</div>";
 	 echo "</div>";
