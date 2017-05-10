@@ -2,6 +2,7 @@
 
 <div class="row hidden-print">
 		<div class="col-xs-12 col-md-8 col-lg-8"></div>
+		<?php if ($heres != "index") { ?>
 		<div class="col-xs-12 col-md-4 col-lg-4 well well-sm text-right">
 			<form action="search.php" method="get">
 				<div class="input-group">
@@ -12,6 +13,7 @@
 				</div>
 			</form>   
 		</div>
+		<?php } ?>
 </div>
 
 
