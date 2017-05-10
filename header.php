@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><img src="images/e1-blue-40.png"></a>
+      <a class="navbar-brand" href="#"><img src="images/e3-blue-40.png"></a>
     </div>
     <div class="collapse navbar-collapse" id="collapse-1">
 		<ul class="nav navbar-nav">
