@@ -79,10 +79,13 @@ include("header.php");			?>
 	 echo "</div>";
 	 echo "</div>";
 	}
+
+	echo "<p class='hidden-sm hidden-md hidden-lg text-center'><img src='$coverimage'></p>";
 	?>
 
 
-
+<!-- </div>
+</div> -->
 
 
 <?php
@@ -133,7 +136,7 @@ include("header.php");			?>
 		}
 		echo "</ul>";
 		echo "</div>";
-		echo "<div class='col-xs-4 text-center'>";
+		echo "<div class='col-sm-4 hidden-xs text-center'>";
 		if ($coverimage != "") {
 		echo "<img src='$coverimage' class='img-responsive'>";
 		}
