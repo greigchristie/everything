@@ -5,8 +5,14 @@ include("header.php");
 //echo "<p>$here</p>";
 //echo $_SERVER['HTTP_USER_AGENT'];
 ?>
+<div class="row">
+	<div class="col-md-2 col-lg-3"></div>
+	<div class="col-xs-12 col-md-8 col-lg-6">
 <h2>Search everything</h2> 
+</div>
+</div>
 	<div class="row">
+		<div class="col-md-2 col-lg-3"></div>
 	<div class="col-xs-12 col-md-8 col-lg-6">
 		<label>Artist Search</label>
 		<form class="well form-search" action="search.php" method="get">  
@@ -21,6 +27,7 @@ include("header.php");
 	</div>  
 	</div>
 	<div class="row">
+		<div class="col-md-2 col-lg-3"></div>
   	<div class="col-xs-12 col-md-8 col-lg-6">
 		<label>Track Search</label>
 		<form class="well form-search" action="search.php" method="get">  
@@ -35,6 +42,7 @@ include("header.php");
 	</div> 
 	</div>
 	<div class="row">
+		<div class="col-md-2 col-lg-3"></div>
 	<div class="col-xs-12 col-md-8 col-lg-6">
 		<label>Album Search</label>
 		<form class="well form-search" action="search.php" method="get">  
@@ -49,6 +57,7 @@ include("header.php");
 	</div>
 	</div>
 	<div class="row">
+		<div class="col-md-2 col-lg-3"></div>
 	<div class="col-xs-12 col-md-8 col-lg-6">
 		<label>Album Artist Search</label>
 		<form class="well form-search" action="search.php" method="get">  
@@ -65,11 +74,13 @@ include("header.php");
 
 
 	<div class="row">
+		<div class="col-md-2 col-lg-3"></div>
 		<div class="col-xs-10 col-md-6 col-lg-4">
 		<label>Collection Search</label>
 	</div>
 	</div>
  		<div class="row">
+ 			<div class="col-md-2 col-lg-3"></div>
   				<form action="search.php" method="get">
   				<div class="col-xs-8 col-md-6 col-lg-4">
 					  
