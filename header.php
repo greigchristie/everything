@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><img src="images/e3-blue-grid-40.png"></a>
+      <a class="navbar-brand" href="#"><img src="images/et6-blue-40.png"></a>
     </div>
     <div class="collapse navbar-collapse" id="collapse-1">
 		<ul class="nav navbar-nav">
@@ -69,7 +69,7 @@
 	</div>
 
 <div class="row hidden-print">
-<div class="col-xs-12 col-md-8 col-lg-8"><h1><small>CDs, Downloads and Coverdiscs</small></h1></div>
+<div class="col-xs-12 col-md-8 col-lg-8"><h1><!--<small>CDs, Downloads and Coverdiscs</small>-->every-THING</h1></div>
 <?php if ($heres != "index") { ?>
 <div class="col-xs-12 col-md-4 col-lg-4 well well-sm text-right">
 <form action="search.php" method="get">
