@@ -8,7 +8,7 @@ include("header.php");
 <div class="row">
 	<div class="col-md-2 col-lg-3"></div>
 	<div class="col-xs-12 col-md-8 col-lg-6">
-<h2>Search everything</h2> 
+<h2>Search</h2> 
 </div>
 </div>
 	<div class="row">

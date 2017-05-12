@@ -69,7 +69,7 @@
 	</div>
 
 <div class="row hidden-print">
-<div class="col-xs-12 col-md-8 col-lg-8"><h1><!--<small>CDs, Downloads and Coverdiscs</small>-->every-THING</h1></div>
+<div class="col-xs-12 col-md-8 col-lg-8"><h1><!--<small>CDs, Downloads and Coverdiscs</small>--><span style="font-size: 1.45em;">e</span>very-Thing</h1></div>
 <?php if ($heres != "index") { ?>
 <div class="col-xs-12 col-md-4 col-lg-4 well well-sm text-right">
 <form action="search.php" method="get">
