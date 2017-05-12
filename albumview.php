@@ -79,8 +79,9 @@ include("header.php");			?>
 	 echo "</div>";
 	 echo "</div>";
 	}
-
+	if ($coverimage != "") {
 	echo "<p class='hidden-sm hidden-md hidden-lg text-center'><img src='$coverimage'></p>";
+	}
 	?>
 
 
