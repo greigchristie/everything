@@ -91,7 +91,12 @@ $resulz=curl_exec($ch);
 //  echo "</pre>";
 
 $resulzs = json_decode($resulz);
+// check to see if artist name has a (number) after and get rid of it.
 $albumartist = $resulzs->artists[0]->name;
+    if (preg_match('/(.*)( )(\(\d+\))/', $albumartist, $matches)) {
+      // print_r($matches);
+      $albumartist = $matches[1];
+      }
 $tracks = $resulzs->tracklist;
 // echo "album: ".$albumtitle."<br>";
 if ($albumtitle == "") {
@@ -146,10 +151,18 @@ $query = $con->query("SELECT id FROM artists WHERE artist_name = '$albumartist'"
    foreach ($tracks as $track) {
 //print_r($track->artists);
 //echo "<br>";
+      $tracktitle = $track->title;
+      $trackartist = $track->artists[0]->name;
 if ($albumartist != "Various Artists") {
-echo $albumartist ." - " . $track->title . "\n";
+
+echo $albumartist ." - " . $tracktitle . "\n";
 } else {
-	echo $track->artists[0]->name . " - " . $track->title . "\n";
+      if (preg_match('/(.*)( )(\(\d+\))/', $trackartist, $matches)) {
+      // print_r($matches);
+      $trackartist = $matches[1];
+      }
+
+	echo $trackartist . " - " . $tracktitle . "\n";
 }
 }
 		
