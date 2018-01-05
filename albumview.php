@@ -1,6 +1,7 @@
 <?php
 include("functions.php");
 include("connected.php");
+include("spauth.php");
 $albumid = $_GET['query'];
 $various = "";
 //echo $getartist;
@@ -22,14 +23,14 @@ $various = "";
 <?php			 
 			
 			$url = "https://api.spotify.com/v1/search?q=album%3A$ualbumtitle+artist%3A$ualbumartist&type=album&market=gb&limit=5";
+			$headers = array("Authorization: Bearer " . $_SESSION['SP_TOKEN']);
 
 			       // echo "service url<pre>";
 			       // echo $url."<br />";
 			       // echo "</pre>";
 			//  Initiate curl
 			$ch = curl_init();
-			// Disable SSL verification
-			//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			// Will return the response, if false it print the response
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
