@@ -1,7 +1,7 @@
 <?php
 include("functions.php");
 include("connected.php");
-
+include("spauth.php");
 $getartist = $_GET['artist'];
 $sqla = "select artist_name from artists where id = $getartist";
 		$resultc = mysqli_query($con,$sqla);
@@ -16,14 +16,14 @@ $uartist = urlencode($artist1);
 
 
 			$url ="https://api.spotify.com/v1/search?q=$uartist&type=artist&market=gb&limit=5";
+			$headers = array("Authorization: Bearer " . $_SESSION['SP_TOKEN']);
 
 			       // echo "service url<pre>";
 			       // echo $url."<br />";
 			       // echo "</pre>";
 			//  Initiate curl
 			$ch = curl_init();
-			// Disable SSL verification
-			//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			// Will return the response, if false it print the response
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -40,6 +40,7 @@ $uartist = urlencode($artist1);
 			$results = json_decode($result);
 			
 		$spotifyuri = $results->artists->items;
+		$spotifyuri = "";
 		if (count($spotifyuri) > 0) {
 		$spotifyuri = $results->artists->items[0]->uri;
 		} else {
@@ -255,7 +256,7 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 <?php
 	if ($coverimage != "") {
 	echo "<img src='$coverimage' class='img-responsive'>";
-	}
+	} else { echo "<h2>Need to implement new Spotify auth</h2>";}
 
 ?>
 </div>
