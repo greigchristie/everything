@@ -7,9 +7,9 @@ $various = "";
 //echo $getartist;
 
 		$sql1 = "SELECT a.artist_name, b.album_title FROM artists a, albums b";
-		$sql1 = $sql1 . " where a.id = b.artist_id";
+		$sql1 = $sql1 . " where a.id = b.album_artist_id";
 		$sql1 = $sql1 . " and b.id = \"$albumid\"";
-		//echo "<h3>$sql1</h3>";
+//		echo "<h3>$sql1</h3>";
 		$result1 = mysqli_query($con,$sql1);
 		while ($row1 = mysqli_fetch_array($result1))
 		{
@@ -93,7 +93,7 @@ include("header.php");			?>
 <?php
 
 //Just to see what comments look like!
-		$sql = "SELECT a.artist_name, b.album_collection, c.track_title, c.track_artist_id, c.album_artist_id, a.id from artists a, albums b, tracks c";
+		$sql = "SELECT a.artist_name, b.album_collection, c.track_title, c.track_artist_id, b.album_artist_id, a.id from artists a, albums b, tracks c";
 		$sql = $sql . " where a.id = c.track_artist_id";
 		$sql = $sql . " and b.id = album_id";
 		$sql = $sql . " and b.id = \"$albumid\"";
