@@ -54,7 +54,7 @@ echo pubpag($page, $noalbums, $heres, $offset);
 //Just to see what comments look like!
 	$trk = "tracks";
 		$sql = "SELECT a.artist_name, a.id as artist_id, b.id as album_id, b.album_title, b.album_collection FROM artists a, albums b";
-		$sql = $sql . " where a.id = b.artist_id";
+		$sql = $sql . " where a.id = b.album_artist_id";
 		$sql = $sql . " and b.album_owned = 1";
 		$sql = $sql . " order by b.id desc";
 		$sql = $sql . " LIMIT $offset offset $bottom";

@@ -1,7 +1,7 @@
 <?php
 include("functions.php");
 include("connected.php");
-		$sqlc = "select count(distinct(artist_id)) from albums";
+		$sqlc = "select count(distinct(album_artist_id)) from albums";
 		//echo $sqlc;
 		$resultc = mysqli_query($con,$sqlc);
 		while ($row = mysqli_fetch_row($resultc))
@@ -42,18 +42,19 @@ echo pubpag($page, $noalbums, $heres, $offset);
 <?php
 
 //Just to see what comments look like!
-		$sql = "SELECT a.artist_name, b.artist_id FROM artists a, albums b";
-		$sql = $sql . " where a.id = b.artist_id";
-		$sql = $sql . " group by b.artist_id";
-		$sql = $sql . " order by artist_sort_name";
+		$sql = "SELECT album_artist_name, album_artist_id FROM artists a, albums b";
+		$sql = $sql . " where a.id = b.album_artist_id";
+		$sql = $sql . " group by album_artist_id, album_artist_name";
+		$sql = $sql . " order by a.artist_sort_name";
 		$sql = $sql . " LIMIT $offset offset $bottom";
 		//$sql = $sql . " group by trackartist";
+//		echo $sql;
 		$result = mysqli_query($con,$sql);
 		$row_cnt = mysqli_num_rows($result);
 		while ($row = mysqli_fetch_array($result))
 		{
-		$albumartist = $row['artist_name'];
-		$artistid = $row['artist_id'];
+		$albumartist = $row['album_artist_name'];
+		$artistid = $row['album_artist_id'];
 		//$trackname = $row['trackname'];
 		//$trackalbum = $row['trackalbum'];
 		$ualbumartist = urlencode($albumartist);

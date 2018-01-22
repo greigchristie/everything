@@ -60,7 +60,7 @@ include("header.php");
 //Just to see what comments look like!
 		$sql = "SELECT a.artist_name, b.album_collection, b.album_title, b.id";
 		$sql = $sql . " from artists a, albums b";
-		$sql = $sql . " where b.artist_id = a.id";
+		$sql = $sql . " where b.album_artist_id = a.id";
 		$sql = $sql . " and a.id = \"$getartist\"";
 		$sql = $sql . " and b.album_collection <> \"cdsingle\"";
 		$sql = $sql . " and b.album_owned = 1";
@@ -135,7 +135,7 @@ Albums by Artist <small class="olalbums">(<strong><?php echo "$row_cnt Albums"; 
 //Just to see what comments look like!
 		$sql = "SELECT a.artist_name, b.album_collection, b.album_title, b.id";
 		$sql = $sql . " from artists a, albums b";
-		$sql = $sql . " where b.artist_id = a.id";
+		$sql = $sql . " where b.album_artist_id = a.id";
 		$sql = $sql . " and a.id = \"$getartist\"";
 		$sql = $sql . "and b.album_collection = \"cdsingle\"";
 

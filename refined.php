@@ -54,12 +54,11 @@ if ($req == "variousartist"){
 	$va = "variousartist";
 }
 
-		$sql = "SELECT a.artist_name, a.id as aid, b.album_title, c.track_title, b.id, b.album_collection, d.album_artist_id, d.album_artist_name";
+		$sql = "SELECT a.artist_name, a.id as aid, b.album_title, c.track_title, b.id, b.album_collection, b.album_artist_name";
 
-		$sql = $sql . " from artists a, albums b, tracks c, album_artist_name d";
+		$sql = $sql . " from artists a, albums b, tracks c";
 		$sql = $sql . " where a.id = c.track_artist_id";
 		$sql = $sql . " and b.id = c.album_id";
-		$sql = $sql . " and b.id = d.album_id";
 		$sql = $sql . " and $req = $query";
 //		$sql = $sql . " ORDER BY $sort";
 //		 echo $sql;
