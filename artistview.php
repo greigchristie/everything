@@ -197,12 +197,12 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 		$sql = "SELECT b.album_title, b.id, b.album_collection from albums b, tracks c";
 		$sql = $sql . " where b.id = c.album_id";
 		$sql = $sql . " and (c.track_artist_id = \"$getartist\"";
-		$sql = $sql . " and c.album_artist_id <> \"$getartist\")";
+		$sql = $sql . " and b.album_artist_id <> \"$getartist\")";
 		$sql = $sql . " group by b.id, b.album_title, b.album_collection";
 		$sql = $sql . " order by b.id";
 		//$sql = $sql . " LIMIT $offset offset $bottom";
 		//$sql = $sql . " group by trackartist";
-//		echo $sql;
+		// echo $sql;
 		$result = mysqli_query($con,$sql);
 		$row_cnt = mysqli_num_rows($result);
 		if ($row_cnt != 0) {
