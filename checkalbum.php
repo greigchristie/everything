@@ -1,5 +1,5 @@
 <?php
-include("connected.php");
+//include("connected.php");
 include("functions.php");
 include('header.php');
 ?>
@@ -8,16 +8,21 @@ include('header.php');
 $barcode = "";
 $catno = "";
 $titleartist = "";
+if (isset($_POST['barcode'])) {
 $barcode = $_POST['barcode'];
+}
+if (isset($_POST['catno'])) {
 $catno = $_POST['catno'];
+}
 $titleartist = $_POST['title'];
+
 $searchtype = "";
 $searchvalue = "";
-if (isset($barcode)) {
+if ($barcode != "") {
 $searchvalue = $_POST['barcode'];
 $searchtype = "barcode";
 }
-if (isset($catno)) {
+if ($catno != "") {
 $searchvalue = $_POST['catno'];
 $searchtype = "catno";
 }
@@ -86,9 +91,9 @@ curl_setopt($ch, CURLOPT_USERAGENT, 'everythingMusic/2.0 +http://every-thing.co.
 curl_setopt($ch, CURLOPT_URL,$url);
 // Execute
 $resulz=curl_exec($ch);
-//  echo "<pre>";
-//  var_dump(json_decode($resulz, true));
-//  echo "</pre>";
+ echo "<pre>";
+ var_dump(json_decode($resulz, true));
+ echo "</pre>";
 
 $resulzs = json_decode($resulz);
 // check to see if artist name has a (number) after and get rid of it.
@@ -104,17 +109,17 @@ if ($albumtitle == "") {
 // echo "<p>ablum: $albumtitle</p>";
 }
 if ($albumartist == "Various") { $albumartist = "Various Artists"; }
-$query = $con->query("SELECT id FROM artists WHERE artist_name = '$albumartist'");
-    while ($row = $query->fetch_assoc()) {
-      $artistId = $row['id'];
-    }
+//$query = $con->query("SELECT id FROM artists WHERE artist_name = '$albumartist'");
+//    while ($row = $query->fetch_assoc()) {
+//      $artistId = $row['id'];
+//    }
 ?>
 <form role="form" action="input.php" method="post">
 <div class="row">
   <div class="form-group  col-md-4">
     <label for="albumArtist">Album Artist</label>
     <input type="text" class="form-control input-medium" id="albumArtist" name="albumArtist" value="<?php echo $albumartist; ?>">
-    <input type="hidden"  name="hdnId" value="<?php echo $artistId; ?>">
+<!--    <input type="hidden"  name="hdnId" value="<?php //echo $artistId; ?>">-->
     <input type="hidden"  name="albumid" value="">
   </div>
 </div>
@@ -149,8 +154,8 @@ $query = $con->query("SELECT id FROM artists WHERE artist_name = '$albumartist'"
     <textarea class="form-control" rows="15" name="trackInfo">
 <?php
    foreach ($tracks as $track) {
-//print_r($track->artists);
-//echo "<br>";
+print_r($track->artists);
+echo "<br>";
       $tracktitle = $track->title;
       $trackartist = $track->artists[0]->name;
 if ($albumartist != "Various Artists") {
