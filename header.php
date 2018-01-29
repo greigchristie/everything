@@ -21,47 +21,48 @@
 	<div class="row hidden-print">
 		
 		<!-- <ul class="nav navbar-nav"> -->
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-expand-md">
 			<div class="container-fluid">
 				<div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+<!--      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false">-->
+<!--        <span class="sr-only">Toggle navigation</span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--      </button>-->
 
-      <a class="navbar-brand" href="#"><img src="images/e7-2-40.png"></a>
+      <a class="navbar-brand" href="index.php"><img src="images/e7-2-40.png"></a>
 
     </div>
     <div class="collapse navbar-collapse" id="collapse-1">
-		<ul class="nav navbar-nav">
-		<li><a href="index.php">SEARCH</a></li>
-		<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">BROWSE <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          	<li><a href="artist.php">ARTISTS</a></li>
-			<li><a href="album.php">ALBUMS</a></li>
-			<li><a href="albumartist.php">ALBUM ARTISTS</a></li>
-			<li><a href="tracks.php">TRACKS</a></li>
-          </ul>
+		<ul class="navbar-nav">
+		<li class="nav-item"><a href="index.php" class="nav-link">SEARCH</a></li>
+		<li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">BROWSE <span class="caret"></span></a>
+          
+          	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  	<a href="artist.php" class="dropdown-item">ARTISTS</a>
+			<a href="album.php" class="dropdown-item">ALBUMS</a>
+			<a href="albumartist.php" class="dropdown-item">ALBUM ARTISTS</a>
+			<a href="tracks.php" class="dropdown-item">TRACKS</a>
+         	</div>
         </li> 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">RECENT <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-			<li><a href="recent.php">RECENT TRACKS</a></li>
-			<li><a href="recentalbums.php">RECENT ALBUMS</a></li>
-          </ul>
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">RECENT <span class="caret"></span></a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			<a href="recent.php" class="dropdown-item">RECENT TRACKS</a>
+			<a href="recentalbums.php" class="dropdown-item">RECENT ALBUMS</a>
+          </div>
         </li> 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ADMIN <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          	<li><a href="discsearch.php">ADD NEW MUSIC</a></li>
-          </ul>
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ADMIN <span class="caret"></span></a>
+          <div class="dropdown-menu">
+          	<a href="discsearch.php" class="dropdown-item">ADD NEW MUSIC</a>
+          </div>
         </li> 
 
 
-			<li><a href="about.php">ABOUT</a></li>    
+			<li class="nav-item"><a href="about.php" class="nav-link">ABOUT</a></li>    
 
 		</ul>
 	</div>

@@ -73,7 +73,7 @@ include("header.php");
 		$row_cnt = mysqli_num_rows($result);
 		?>
 <div class="row">
-<div class ="col-xs-12 alert-info">
+<div class ="col-12 alert-info">
 <?php
 	if ($spotifyuri != "") {
 	 echo "<h2><a href='".$spotifyuri."'>".ucwords($artist1)."</a></h2>"; 
@@ -84,18 +84,18 @@ include("header.php");
 </div>
 </div>
 <div class ="row">
-<div class="col-xs-12">
+<div class="col-12">
 &nbsp;
 </div>
 </div>
 <?php 		if ($row_cnt != 0) { ?>
 <div class ="row">
-<div class="col-xs-12">
+<div class="col-12">
 Albums by Artist <small class="olalbums">(<strong><?php echo "$row_cnt Albums"; ?></strong></small><small>)</small>
 </div>
 </div>
 <div class ="row">
-<div class="col-xs-8"><ol class="olalbums">
+<div class="col-8"><ol class="olalbums">
 <?php
 		while ($row = mysqli_fetch_array($result))
 		{
@@ -112,8 +112,8 @@ Albums by Artist <small class="olalbums">(<strong><?php echo "$row_cnt Albums"; 
 
 			//echo "<td>$albumartist</td>";
 			
-			echo "<div class='row'><h3 class='col-xs-12 lead'><li class='al-$collection'><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></h3></div>\n";
-			echo "<div class='row'><div class='col-xs-12' id='trackCon$albumid'></div></div>\n";
+			echo "<div class='row'><h3 class='col-12 lead'><li class='al-$collection'><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></h3></div>\n";
+			echo "<div class='row'><div class='col-12' id='trackCon$albumid'></div></div>\n";
 
 			/*echo "<td><a href='refined.php?req=trackartist&query=$utrackartist'>$trackartist</a></td>";
 			//echo "<td><a href='refined.php?req=trackname&query=$utrackname'>$trackname</a></td>";
@@ -124,7 +124,7 @@ Albums by Artist <small class="olalbums">(<strong><?php echo "$row_cnt Albums"; 
 		}
 	} 	else {
 	echo "<div class =\"row\">";
-	echo "<div class=\"col-xs-8\"><ol>";
+	echo "<div class=\"col-8\"><ol>";
 	}
 	// nelly?	} 
 ?>
@@ -147,18 +147,18 @@ Albums by Artist <small class="olalbums">(<strong><?php echo "$row_cnt Albums"; 
 		?>
 
 <div class ="row">
-<div class="col-xs-12">
+<div class="col-12">
 &nbsp;
 </div>
 </div>
 <?php 		if ($row_cnt != 0) { ?>
 <div class ="row">
-<div class="col-xs-12">
+<div class="col-12">
 CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 </div>
 </div>
 <div class ="row">
-<div class="col-xs-8"><ol class-"olsingles">
+<div class="col-8"><ol class-"olsingles">
 <?php
 		while ($row = mysqli_fetch_array($result))
 		{
@@ -174,8 +174,8 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 
 
 			//echo "<td>$albumartist</td>";
-			echo "<div class='row'><div class='col-xs-12 lead'><li><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></div></div>\n";
-			echo "<div class='row'><div class='col-xs-12' id='trackCon$albumid'></div></div>\n";
+			echo "<div class='row'><div class='col-12 lead'><li><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></div></div>\n";
+			echo "<div class='row'><div class='col-12' id='trackCon$albumid'></div></div>\n";
 			/*echo "<td><a href='refined.php?req=trackartist&query=$utrackartist'>$trackartist</a></td>";
 			//echo "<td><a href='refined.php?req=trackname&query=$utrackname'>$trackname</a></td>";
 			//echo "<td><a href='refined.php?req=trackalbum&query=$utrackalbum'>$trackalbum</a></td>";
@@ -186,7 +186,7 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 	echo "</ol>";	
 	} 	else {
 	echo "<div class =\"row\">";
-	echo "<div class=\"col-xs-8\">";
+	echo "<div class=\"col-8\">";
 	}
 	// nelly?	} 
 ?>
@@ -209,12 +209,12 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 		?>
 
 <div class ="row">
-<div class="col-xs-12">
+<div class="col-12">
 <a href="refined.php?req=variousartist&query=<?php echo urlencode($getartist); ?>">Albums featuring Artist</a> <small><?php echo "($row_cnt Albums)"; ?></small>:
 </div>
 </div>
 <div class ="row">
-<div class="col-xs-8"><ol  class-"olstuff">
+<div class="col-8"><ol  class-"olstuff">
 <?php
 		while ($row = mysqli_fetch_array($result))
 		{
@@ -229,9 +229,9 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 
 
 			//echo "<td>$albumartist</td>";
-			echo "<div class='row'><div class='col-xs-12 lead'><li><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></div></div>\n";
+			echo "<div class='row'><div class='col-12 lead'><li><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></div></div>\n";
 			
-			echo "<div class='row'><div class='col-xs-12' id='trackCon$albumid'></div></div>\n";
+			echo "<div class='row'><div class='col-12' id='trackCon$albumid'></div></div>\n";
 			/*echo "<td><a href='refined.php?req=trackartist&query=$utrackartist'>$trackartist</a></td>";
 			//echo "<td><a href='refined.php?req=trackname&query=$utrackname'>$trackname</a></td>";
 			//echo "<td><a href='refined.php?req=trackalbum&query=$utrackalbum'>$trackalbum</a></td>";
@@ -242,7 +242,7 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 	} // check if no items returned 
 	else {
 	echo "<div class =\"row\">";
-	echo "<div class=\"col-xs-8\"><ol>";
+	echo "<div class=\"col-8\"><ol>";
 	}
 	// nelly?	} 
 ?>
@@ -252,10 +252,10 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 </div>
 </div>
 </div>
-<div class="col-xs-4 text-center">
+<div class="col-4 text-center">
 <?php
 	if ($coverimage != "") {
-	echo "<img src='$coverimage' class='img-responsive'>";
+	echo "<img src='$coverimage' class='img-fluid'>";
 	} else { echo "<h2>Need to implement new Spotify auth</h2>";}
 
 ?>

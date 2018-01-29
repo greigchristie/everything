@@ -68,7 +68,7 @@ $various = "";
 include("header.php");			?>
 
 <div class="row"> <!-- row 1 -->
-<div class="col-xs-12">
+<div class="col-12">
 <?php
 	if ($spotifyuri != "") {
 	 echo "<h2 class='alert-info'><em><a href='".$spotifyuri."'>".$albumtitle." by ". $albumartist."</a></em></strong></h2>"; 
@@ -81,7 +81,7 @@ include("header.php");			?>
 	 echo "</div>";
 	}
 	if ($coverimage != "") {
-	echo "<p class='hidden-sm hidden-md hidden-lg text-center'><img src='$coverimage'></p>";
+	echo "<p class='d-block d-sm-none text-center'><img src='$coverimage'></p>";
 	}
 	?>
 
@@ -107,7 +107,7 @@ include("header.php");			?>
 		echo "<div class='row'>"; //start row 2
 //		echo "<div class='col-xs-1'>";
 //		echo "</div>";
-		echo "<div class='col-xs-8'>";
+		echo "<div class='col-8'>";
 		echo "<ol>";
 		$row_cnt = mysqli_num_rows($result);
 		while ($row = mysqli_fetch_array($result))
@@ -123,7 +123,7 @@ include("header.php");			?>
 
                 $ualbumartist = urlencode($albumartist);
                 if ($album_artist_id != $track_artist_id) { $various = "true"; } else { $various = "false"; }
-		echo "<div class='row'><div class='col-xs-12'><li>"; //row 3
+		echo "<div class='row'><div class='col-12'><li>"; //row 3
 		 if($various == "true") {
 			echo "<a href='search.php?artistidquery=$artistid'><strong>$trackartist</strong></a> - ";
 			} 
@@ -138,16 +138,14 @@ include("header.php");			?>
 		}
 		echo "</ul>";
 		echo "</div>";
-		echo "<div class='col-sm-4 hidden-xs text-center'>";
+		echo "<div class='col-4 hidden-xs text-center'>";
 		if ($coverimage != "") {
 		echo "<img src='$coverimage' class='img-responsive'>";
 		}
 		if ($spotifyuri != "") {
-	 echo "<div class='row'>";
-	 echo "<div class='col-sm-4 hidden-xs' text-center>";
+
 	 echo "<iframe src=\"https://embed.spotify.com/?uri=$spotifyuri\" width=\"300\" height=\"380\" frameborder=\"0\" allowtransparency=\"true\"></iframe>";
-	 echo "</div>";
-	 echo "</div>";
+
 
 		}
 		echo "</div>";

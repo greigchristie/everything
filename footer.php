@@ -19,9 +19,9 @@
 
 
 <div class="row hidden-print">
-<div class="col-xs-12 col-lg-12">&nbsp;</div>
+<div class="col-12">&nbsp;</div>
 
-		<div class="text-muted text-center">Everything is a database of tracks in my personal music collection.<p><i class="fa fa-copyright"></i>
+		<div class="text-muted text-center col-12">Everything is a database of tracks in my personal music collection.<p><i class="fa fa-copyright"></i>
  Greig Christie <?php echo date('Y'); ?> 
 			<a href="http://twitter.com/treefell/"><i class="fa fa-twitter"></i></a></p>
 			<p><a href="books/">BOOKS</a> - <a href="movies/">MOVIES</a></p>
