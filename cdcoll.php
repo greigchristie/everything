@@ -21,7 +21,7 @@ include("header.php");
 //Just to see what comments look like!
 		$sql = "SELECT a.artist_name, b.album_title";
 		$sql = $sql . " from artists a, albums b";
-		$sql = $sql . " where a.id = b.artist_id";
+		$sql = $sql . " where a.id = b.album_artist_id";
 		$sql = $sql . " and b.album_collection = 'dlibrary'";
 		$sql = $sql . " order by a.artist_sort_name, b.album_title";
 		$result = mysqli_query($con,$sql);

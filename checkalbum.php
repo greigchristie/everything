@@ -1,8 +1,33 @@
 <?php
 //include("connected.php");
 include("functions.php");
+include("connected.php");
 include('header.php');
 ?>
+<script>
+$(function() {
+    // $( "#albumArtist" ).autocomplete({
+    //     source: 'autoc.php',
+    //     minLength: 2
+    //   });
+    $( "#albumArtist" ).autocomplete({
+        source: 'autoc.php',
+        minLength: 2,
+        focus: function(event, ui) {
+          event.preventDefault();
+          $(this).val(ui.item.value);
+        },
+        select: function (event, ui) {
+          event.preventDefault();
+          $(this).val(ui.item.name);
+          $("#sortArtist").val(ui.item.value);
+          $("#sartist").val(ui.item.value);
+          $("#hdnId").val(ui.item.id);//Put Id in a hidden field
+          // return false;
+        }
+    });
+});
+</script>
 <h2>Check album</h2>
 <?php
 $barcode = "";
@@ -14,22 +39,26 @@ $barcode = $_POST['barcode'];
 if (isset($_POST['catno'])) {
 $catno = $_POST['catno'];
 }
+if (isset($_POST['title'])) {
 $titleartist = $_POST['title'];
-
+$itemtype = "titleartist";
+}
 $searchtype = "";
 $searchvalue = "";
 if ($barcode != "") {
 $searchvalue = $_POST['barcode'];
 $searchtype = "barcode";
+$itemtype = "barcode";
 }
 if ($catno != "") {
 $searchvalue = $_POST['catno'];
 $searchtype = "catno";
+$itemtype = "catno";
 }
 $albumtitle = "";
  $token = getenv('DISCOGS_TOKEN');
 //  $url = "https://api.spotify.com/v1/search?query=track%3A".$utrackname."+artist%3A".$utrackartist."&market=gb&offset=0&limit=5&type=track";
-if (isset($titleartist)){
+if ($itemtype == "titleartist"){
   $releaseId = $_POST['hdnId'];  
 } else {
 
@@ -91,9 +120,9 @@ curl_setopt($ch, CURLOPT_USERAGENT, 'everythingMusic/2.0 +http://every-thing.co.
 curl_setopt($ch, CURLOPT_URL,$url);
 // Execute
 $resulz=curl_exec($ch);
- echo "<pre>";
- var_dump(json_decode($resulz, true));
- echo "</pre>";
+// echo "<pre>";
+// var_dump(json_decode($resulz, true));
+// echo "</pre>";
 
 $resulzs = json_decode($resulz);
 // check to see if artist name has a (number) after and get rid of it.
@@ -109,31 +138,34 @@ if ($albumtitle == "") {
 // echo "<p>ablum: $albumtitle</p>";
 }
 if ($albumartist == "Various") { $albumartist = "Various Artists"; }
-//$query = $con->query("SELECT id FROM artists WHERE artist_name = '$albumartist'");
-//    while ($row = $query->fetch_assoc()) {
-//      $artistId = $row['id'];
-//    }
+    $sql = "SELECT id, artist_sort_name from artists where artist_name = '$albumartist' and artist_visible = 1";
+    $result = mysqli_query($con,$sql);
+    // $row_cnt = mysqli_num_rows($result);
+    while ($row = mysqli_fetch_array($result))
+    { $artistid = $row['id'];
+      $sortartist = $row['artist_sort_name'];
+     }
 ?>
-<form role="form" action="input.php" method="post">
+<form role="form" action="input_new.php" method="post">
 <div class="row">
   <div class="form-group  col-md-4">
     <label for="albumArtist">Album Artist</label>
     <input type="text" class="form-control input-medium" id="albumArtist" name="albumArtist" value="<?php echo $albumartist; ?>">
-<!--    <input type="hidden"  name="hdnId" value="<?php //echo $artistId; ?>">-->
-    <input type="hidden"  name="albumid" value="">
+   <input type="text"  name="hdnId" id="hdnId" value="<?php echo $artistid; ?>">
+
   </div>
 </div>
 <div class="row">
   <div class="form-group  col-md-4">
     <label for="sortArtist">Sort Artist</label>
-    <input type="text" class="form-control input-medium" id="sortArtist" name="sortArtist" value="<?php echo $albumartist; ?>">
+    <input type="text" class="form-control input-medium" id="sortArtist" name="sortArtist" value="<?php echo $sortartist; ?>">
+    <input type='hidden' id="sartist" name='sartist' value=''>
   </div>
 </div>
 <div class="row">
   <div class="form-group  col-md-4">
     <label for="albumTitle">Album Title</label>
     <input type="text" class="form-control input-medium" id="albumTitle" name="albumTitle" value="<?php echo $albumtitle; ?>">
-    <input type="hidden" name="oalbumTitle" value="<?php echo $albumtitle; ?>">
   </div>
 </div>
 <div class="row">
@@ -141,9 +173,10 @@ if ($albumartist == "Various") { $albumartist = "Various Artists"; }
     <label for="albumCollection">Album Collection</label>
     <select class="form-control" name="albumCollection" id="albumCollection">
     		<option>coverdisc</option>
-		<option selected>dlibrary</option>
-		<option>cdsingle</option>
-		<option>itunes</option>
+		<option value='dlibrary' <?php if ($itemtype == "barcode"){ echo "selected";}?>>dlibrary</option>
+    <option value='itunes' <?php if ($itemtype == "titleartist"){ echo "selected";}?>>itunes</option>
+		<option value='vinyl' <?php if ($itemtype == "catno"){ echo "selected";}?>>vinyl</option>
+    <option value='cdsingle'>cdsingle</option>
 	</select>
   </div>
 
@@ -153,29 +186,36 @@ if ($albumartist == "Various") { $albumartist = "Various Artists"; }
         <label for="trackInfo">Track Info</label>
     <textarea class="form-control" rows="15" name="trackInfo">
 <?php
+$alltracks = "";
    foreach ($tracks as $track) {
-print_r($track->artists);
-echo "<br>";
+//print_r($track->artists);
+//echo "<br>";
       $tracktitle = $track->title;
       $trackartist = $track->artists[0]->name;
 if ($albumartist != "Various Artists") {
-
-echo $albumartist ." - " . $tracktitle . "\n";
+$trackline = $albumartist ." - " . $tracktitle . PHP_EOL;
+$alltracks = $alltracks . $trackline;
 } else {
+//      if (preg_match('/(.*)( )(\(\d+\))/', $trackartist, $matches)) {
+//       print_r($matches);
+//      $trackartist = $matches[1];
+//      }
+//	print_r($trackartist);
       if (preg_match('/(.*)( )(\(\d+\))/', $trackartist, $matches)) {
       // print_r($matches);
       $trackartist = $matches[1];
       }
-
-	echo $trackartist . " - " . $tracktitle . "\n";
+	$trackline =  $trackartist . " - " . $tracktitle . PHP_EOL;
+	$alltracks = $alltracks . $trackline;
 }
 }
-		
+//		echo 
+		echo rtrim($alltracks);
 		?>
 </textarea>
     </div>
     </div>
-  <button type="submit" class="btn" name="button">Build</button> 
+  <button type="submit" class="btn" name="submit" value="Add Album">Add Album</button> 
 
   </form>
 

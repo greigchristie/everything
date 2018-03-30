@@ -1,71 +1,38 @@
 <?php
 include("functions.php");
 include("connected.php");
-include("spauth.php");
+include("includes/spotify.php");
 $albumid = $_GET['query'];
 $various = "";
 //echo $getartist;
 
-		$sql1 = "SELECT a.artist_name, b.album_title FROM artists a, albums b";
+		$sql1 = "SELECT a.artist_name, b.album_title, b.album_owned FROM artists a, albums b";
 		$sql1 = $sql1 . " where a.id = b.album_artist_id";
 		$sql1 = $sql1 . " and b.id = \"$albumid\"";
+		$sql1 = $sql1 . " and b.album_owned = 1";
 //		echo "<h3>$sql1</h3>";
 		$result1 = mysqli_query($con,$sql1);
 		while ($row1 = mysqli_fetch_array($result1))
 		{
 			$albumartist = $row1['artist_name'];
 			$albumtitle = $row1['album_title'];
+			$albumowned = $row1['album_owned'];
 			$ualbumtitle = urlencode($albumtitle);
 			$ualbumartist = urlencode($albumartist);
 		}
 
 ?>
-<?php			 
-			
-			$url = "https://api.spotify.com/v1/search?q=album%3A$ualbumtitle+artist%3A$ualbumartist&type=album&market=gb&limit=5";
-			$headers = array("Authorization: Bearer " . $_SESSION['SP_TOKEN']);
+<?php		
+include("header.php");	
+if ($albumowned == 0) { echo "<h2>Album Not Found</h2>";}	 else {
+$spotifys = spotifyIdCover($albumtitle, $albumartist);
+// print_r($spotifys);
 
-			       // echo "service url<pre>";
-			       // echo $url."<br />";
-			       // echo "</pre>";
-			//  Initiate curl
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			// Will return the response, if false it print the response
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_USERAGENT, 'everything/2.0 +http://every-thing.co.uk');
-			// Set the url
-			curl_setopt($ch, CURLOPT_URL,$url);
-			// Execute
-			$result=curl_exec($ch);
-			// Closing
-			curl_close($ch);
-			// echo "<pre>";
-			// print_r($result);
-			// echo "</pre>";
-			$results = json_decode($result);
-			
+$spotify = explode(' - ', $spotifys);
+$spotifyuri = $spotify[0];
+$coverimage = $spotify[1];
 
-		// Will dump a beauty json :3
-		
-//		 echo "<pre>";
-//		 print_r($results);
-//		 echo "</pre>";
-//		echo "<p>$available</p>";
-		$coverimage = "";
-		$spotifyuri = $results->albums->items;
-		if (count($spotifyuri) > 0) {
-		$spotifyuri = $results->albums->items[0]->uri;
-		} else {
-		$spotifyuri = "";
-		}
-		if ($spotifyuri != "") {
-		$coverimage = $results->albums->items[0]->images[1]->url;
-		}
-		//echo $spotifyuri;
-
-include("header.php");			?>
+		?>
 
 <div class="row"> <!-- row 1 -->
 <div class="col-12">
@@ -97,6 +64,8 @@ include("header.php");			?>
 		$sql = $sql . " where a.id = c.track_artist_id";
 		$sql = $sql . " and b.id = album_id";
 		$sql = $sql . " and b.id = \"$albumid\"";
+		$sql = $sql . " and c.track_owned = 1";
+		$sql = $sql . " and b.album_owned = 1";
 		$sql = $sql . " order by c.track_order";
 		//$sql = $sql . " LIMIT $offset offset $bottom";
 		//$sql = $sql . " group by trackartist";
@@ -150,11 +119,13 @@ include("header.php");			?>
 		}
 		echo "</div>";
 		echo "</div>\n"; // end row 2
-		echo "<a href='artistview.php?artist=$artistid'>Click to see all albums by $albumartist</a>";
+		echo "<a href='artistview.php?artist=$album_artist_id'>Click to see all albums by $albumartist</a>";
 		echo "<p> From $collection collection</p>";
 ?>
 	
 <?php
 echo totop($row_cnt);
+		echo "<p><a href='albumedit.php?req=albumid&query=$albumid'>Edit</a></p>";
+	} //end album_owned check
 include("footer.php");
 ?>

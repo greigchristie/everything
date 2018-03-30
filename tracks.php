@@ -2,7 +2,7 @@
 include("functions.php");
 include("connected.php");
 
-		$sqlc = "select count(c.id) from albums b, tracks c where b.id = c.album_id and b.album_owned = 1";
+		$sqlc = "select count(c.id) from albums b, tracks c where b.id = c.album_id and c.track_owned = 1";
 		//echo $sqlc;
 		$resultc = mysqli_query($con,$sqlc);
 		while ($row = mysqli_fetch_row($resultc))
@@ -67,11 +67,11 @@ echo pubpag($page, $noalbums, $heres, $offset);
 <?php
 
 //Just to see what comments look like!
-		$sql = "SELECT a.artist_name, b.id, b.album_collection, b.album_title, c.track_title, c.track_artist_id";
+		$sql = "SELECT a.artist_name, a.id as artist_id, b.id, b.album_collection, b.album_title, c.track_title, c.track_artist_id";
 		$sql = $sql . " FROM artists a, albums b, tracks c";
 		$sql = $sql . " WHERE a.id = c.track_artist_id";
 		$sql = $sql . " AND b.id = c.album_id";
-		$sql = $sql . " AND b.album_owned = 1";
+		$sql = $sql . " AND c.track_owned = 1";
 		$sql = $sql . " ORDER BY $sort asc";
 		$sql = $sql . " LIMIT $offset offset $bottom";
 
@@ -84,15 +84,15 @@ echo pubpag($page, $noalbums, $heres, $offset);
 		$trackname = $row['track_title'];
 		$trackalbum = $row['album_title'];
 		$albumid = $row['id'];
-		$artistid = $row['id'];
+		$artistid = $row['artist_id'];
 		$collection = $row['album_collection'];
 		$utrackartist = urlencode($trackartist);
 		$utrackname = urlencode($trackname);
 		$utrackalbum = urlencode($trackalbum);
 			echo "<tr>";
-			echo "<td><a href='refined.php?req=trackartist&query=$artistid'>$trackartist</a></td>";
-			echo "<td><a href='refined.php?req=tracktitle&query=$utrackname'>$trackname</a></td>";
-			echo "<td><a href='refined.php?req=albumtitle&query=$albumid'>$trackalbum</a> (".$collection.")</td>";
+			echo "<td><a href='search.php?artistidquery=$artistid'>$trackartist</a></td>";
+			echo "<td><a href='search.php?trackquery=$utrackname'>$trackname</a></td>";
+			echo "<td><a href='albumview.php?req=albumid&query=$albumid'>$trackalbum</a> (".$collection.")</td>";
 			//echo "<td>" . $trackname . "</td> ";
 			//echo "<td>" . $trackalbum . "</td> ";
 			echo "</tr>\n";

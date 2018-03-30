@@ -3,7 +3,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
+<?php if (isset($_GET['requery'])) { 
+$query = $_GET['requery'];
+echo "<title>$heres for $query</title>";
+
+} else { ?> 
 <title>Everything - <?php echo $heres ?></title>
+<?php } ?>
 	<style type="text/css" media="all">
 		@import "css/bootstrap.css";
 	</style>
@@ -58,6 +64,7 @@
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ADMIN <span class="caret"></span></a>
           <div class="dropdown-menu">
           	<a href="discsearch.php" class="dropdown-item">ADD NEW MUSIC</a>
+          	<a href="createartist.php" class="dropdown-item">CREATE ARTIST</a>
           </div>
         </li> 
 
@@ -79,7 +86,7 @@
 	<div class="input-group">
   <input type="text" class="form-control" name="requery" placeholder="Keyword search">
   	<span class="input-group-btn">  
-  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>  
+  <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> Search</button>  
 </span>
 </div>
 </form>  

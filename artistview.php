@@ -1,7 +1,7 @@
 <?php
 include("functions.php");
 include("connected.php");
-include("spauth.php");
+include("includes/spotify.php");
 $getartist = $_GET['artist'];
 $sqla = "select artist_name from artists where id = $getartist";
 		$resultc = mysqli_query($con,$sqla);
@@ -10,46 +10,13 @@ $sqla = "select artist_name from artists where id = $getartist";
 		$artist1 = $row[0];
 		}
 $sgetartist = mysqli_real_escape_string($con, $artist1);
-$uartist = urlencode($artist1);
-//echo $getartist;
+// call spotify spi artist function
+$spotifyArtistName = spotifyArtist($artist1);
+$spotifyArtistSplit = explode(' - ', $spotifyArtistName);
 
-
-
-			$url ="https://api.spotify.com/v1/search?q=$uartist&type=artist&market=gb&limit=5";
-			$headers = array("Authorization: Bearer " . $_SESSION['SP_TOKEN']);
-
-			       // echo "service url<pre>";
-			       // echo $url."<br />";
-			       // echo "</pre>";
-			//  Initiate curl
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			// Will return the response, if false it print the response
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_USERAGENT, 'everything/2.0 +http://every-thing.co.uk');
-			// Set the url
-			curl_setopt($ch, CURLOPT_URL,$url);
-			// Execute
-			$result=curl_exec($ch);
-			// Closing
-			curl_close($ch);
-			// echo "<pre>";
-			// print_r($result);
-			// echo "</pre>";
-			$results = json_decode($result);
-			
-		$spotifyuri = $results->artists->items;
-		$spotifyuri = "";
-		if (count($spotifyuri) > 0) {
-		$spotifyuri = $results->artists->items[0]->uri;
-		} else {
-		$spotifyuri = "";
-		}
-		$coverimage = "";
-		if ($spotifyuri != "") {
-		$coverimage = $results->artists->items[0]->images[1]->url;
-		}
+$coverimage = $spotifyArtistSplit[0];
+$artistSpotName = $spotifyArtistSplit[1];
+$spotifyuri = $spotifyArtistSplit[2];
 
 include("header.php");
 ?>
@@ -256,12 +223,13 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 <?php
 	if ($coverimage != "") {
 	echo "<img src='$coverimage' class='img-fluid'>";
+	echo "<br><em>$artistSpotName</e,>";
 	} else { echo "<h2>Need to implement new Spotify auth</h2>";}
 
 ?>
 </div>
 </div> <!-- close row for the split column -->
-
+<P><a href="artistedit.php?artist=<?php echo $getartist; ?>">Edit</a></p>
 <?php
 include("footer.php");
 ?>

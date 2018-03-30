@@ -8973,3 +8973,9 @@ a.text-dark:hover, a.text-dark:focus {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
+/* for front page*/
+.recentcovers img{
+ width: 210px;
+ padding: 5px;
+}

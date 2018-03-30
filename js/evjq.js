@@ -42,3 +42,4 @@ document.getElementById("trackCon"+target).style.display = 'none';
 		$( "small.olalbums" ).append( "<strong>" + p + " coverdisc albums</strong>");
  	}
 	});
+

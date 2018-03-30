@@ -44,22 +44,23 @@ include("header.php");
 // $heye = "hoi";
 
 if ($req == "albumtitle") {
- $req = "b.id";
+ $res = "b.id";
 }
 if ($req == "trackartist") {
- $req = "c.track_artist_id";
+ $res = "c.track_artist_id";
 }
 if ($req == "variousartist"){
-	$req = "c.track_artist_id";
+	$res = "c.track_artist_id";
 	$va = "variousartist";
 }
 
-		$sql = "SELECT a.artist_name, a.id as aid, b.album_title, c.track_title, b.id, b.album_collection, b.album_artist_name";
+		$sql = "SELECT a.artist_name, a.id as aid, b.album_title, b.album_artist_id, c.track_title, b.id, b.album_collection, b.album_artist_name";
 
 		$sql = $sql . " from artists a, albums b, tracks c";
 		$sql = $sql . " where a.id = c.track_artist_id";
 		$sql = $sql . " and b.id = c.album_id";
-		$sql = $sql . " and $req = $query";
+		$sql = $sql . " and $res = $query";
+		if ($req == "variousartist") { $sql = $sql . " and b.album_artist_id <> $query";}
 //		$sql = $sql . " ORDER BY $sort";
 //		 echo $sql;
 		$result = mysqli_query($con,$sql);

@@ -4,7 +4,8 @@ $albumid = $_GET['q'];
 
 //$albumid = "2240";
 		$sql = "SELECT artist_name, track_title, track_order, track_artist_id, artists.id from artists, tracks";
-		$sql = $sql ." where artists.id = tracks.track_artist_id and album_id = '$albumid' order by track_order asc";
+		$sql = $sql ." where artists.id = tracks.track_artist_id and album_id = '$albumid'";
+		$sql = $sql ." and tracks.track_owned = 1 order by track_order asc";
 //		echo $sql;
 		$result = mysqli_query($con,$sql);
 		// echo "<ol>";
