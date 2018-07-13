@@ -53,6 +53,9 @@ if ($req == "variousartist"){
 	$res = "c.track_artist_id";
 	$va = "variousartist";
 }
+if ($req == "albumartist"){
+	$res = "c.track_artist_id";
+}
 
 		$sql = "SELECT a.artist_name, a.id as aid, b.album_title, b.album_artist_id, c.track_title, b.id, b.album_collection, b.album_artist_name";
 
@@ -61,6 +64,7 @@ if ($req == "variousartist"){
 		$sql = $sql . " and b.id = c.album_id";
 		$sql = $sql . " and $res = $query";
 		if ($req == "variousartist") { $sql = $sql . " and b.album_artist_id <> $query";}
+		if ($req == "albumartist") { $sql = $sql . " and b.album_artist_id = $query"; }
 //		$sql = $sql . " ORDER BY $sort";
 //		 echo $sql;
 		$result = mysqli_query($con,$sql);
@@ -82,12 +86,8 @@ if ($req == "variousartist"){
 		$utrackalbum = urlencode($trackalbum);
 			echo '<tr>';
 			echo "<td><a href='artistview.php?artist=$aaid'>$aaname</a></td>";
-			if (!isset($_SESSION['currentlist'])){
-				echo "<td><a href='artistview.php?artist=$artistid'>$trackartist</a></td>";
-			} else {
-			echo "<td><a href='refined.php?req=trackartist&query=$utrackartist'>$trackartist</a></td>";
-		}
-			echo "<td><a href='refined.php?req=tracktitle&query=$utrackname'>$trackname</a></td>";
+			echo "<td><a href='search.php?artistidquery=$artistid'>$trackartist</a></td>";
+			echo "<td><a href='search.php?trackquery=$utrackname'>$trackname</a></td>";
 			echo "<td><a href='albumview.php?req=albumid&query=$albumid'>$trackalbum</a> (".$row['album_collection'].")</td>";
 			echo "</tr>\n";
 		}

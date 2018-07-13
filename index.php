@@ -26,6 +26,20 @@ include("header.php");
 	</div>
 	<div class="row">
   	<div class="col-12">
+		<label>Keyword Search</label>
+		<form class="well form-search" action="keysearch.php" method="get">  
+			<div class="input-group">
+		  <input type="text" class="form-control" name="requery">  
+		  <input type="hidden" name="sort" value="track_title">
+		  <span class="input-group-btn"> 
+		  <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> Search</button>  
+		</span>
+	</div>
+		</form>
+	</div> 
+	</div>	
+	<div class="row">
+  	<div class="col-12">
 		<label>Track Search</label>
 		<form class="well form-search" action="search.php" method="get">  
 			<div class="input-group">

@@ -1,6 +1,7 @@
 <?php
 include("functions.php");
 include("connected.php");
+include("includes/dbselect.php");
 
 		$sqlc = "select count(id) from albums where album_owned = 1";
 		//echo $sqlc;
@@ -53,28 +54,22 @@ echo pubpag($page, $noalbums, $heres, $offset);
 
 //Just to see what comments look like!
 	$trk = "tracks";
-		$sql = "SELECT a.artist_name, a.id as artist_id, b.id as album_id, b.album_title, b.album_collection FROM artists a, albums b";
-		$sql = $sql . " where a.id = b.album_artist_id";
-		$sql = $sql . " and b.album_owned = 1";
-		$sql = $sql . " order by b.id desc";
-		$sql = $sql . " LIMIT $offset offset $bottom";
-		//$sql = $sql . " group by trackartist";
-		$result = mysqli_query($con,$sql);
-		$row_cnt = mysqli_num_rows($result);
-		//echo $row_cnt;
-		while ($row = mysqli_fetch_array($result))
+		$result = getRecentAlbumsPaginated($offset,$bottom);
+		// $row_cnt = mysqli_num_rows($result);
+		// echo "<h3>$row_cnt</h3>\n";
+		while ($row = $result->fetch_assoc())
 		{
-		$albumartist = $row['artist_name'];
+		$albumartist = $row['album_artist_name'];
 		$collection = $row['album_collection'];
 		// $trackname = $row['tracktitle'];
 		$trackalbum = $row['album_title'];
-		$albumid = $row['album_id'];
-		$artistid = $row['artist_id'];
-		
-			$sqlz = "select * from tracks where album_id = '$albumid'";
-			$resultz = mysqli_query($con,$sqlz);
-			$rowz_cnt = mysqli_num_rows($resultz);
-				if ($rowz_cnt == 1) {
+		$albumid = $row['id'];
+		$artistid = $row['album_artist_id'];
+			
+		 $count = getTracksForAlbum($albumid);
+		 // print_r($count);
+		 $notracks = mysqli_num_rows($count);
+				if ($notracks == 1) {
 				$trk = "track";
 				} else {
 				$trk = "tracks"; 
@@ -86,7 +81,7 @@ echo pubpag($page, $noalbums, $heres, $offset);
 			echo "<tr>";
 			echo "<td><a href='artistview.php?artist=$artistid'>$albumartist</a></td>";
 			// echo "<td><a href='refined.php?req=tracktitle&query=$utrackname'>$trackname</a></td>";
-			echo "<td><a href='albumview.php?req=albumid&query=$albumid'>$trackalbum</a> ($rowz_cnt $trk) ($collection)</td>";
+			echo "<td><a href='albumview.php?req=albumid&query=$albumid'>$trackalbum</a> ($notracks $trk) ($collection)</td>";
 			//echo "<td>" . $trackname . "</td> ";
 			//echo "<td>" . $trackalbum . "</td> ";
 			echo "</tr>\n";

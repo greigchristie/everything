@@ -1,7 +1,6 @@
 <?php
 include("functions.php");
 include("connected.php");
-include("includes/dbselect.php");
 $requery = "";
 $query = "nut";
 $querytype = "requery";
@@ -83,44 +82,62 @@ include("header.php");
 	//echo "<pre>";
 	//print_r($_GET);
 	//echo "</pre>";
-
-		// Call search query appropriate to search type (prepared statements in an include)
-		
-		if ($querytype == "requery") {
-//		echo "keyword $requery";
-		$result = searchKeyword($requery);
-//		print_r($result);
-		}
-		if ($querytype == "albumartistquery") {
-		$result = searchAlbumArtist($requery);
-		}
-		if ($querytype == "artistquery") {
-		$result = searchTrackArtist($requery);
-		}
-		if ($querytype == "artistidquery") {
-		$result = searchArtistId($requery);
-		}		
-		if ($querytype == "albumidquery") {
-		$result = searchAlbumId($requery);
-		}
-		if ($querytype == "albumquery") {
-		$result = searchAlbumTitle($requery);
-		}
-		if ($querytype == "trackquery") {
-		$result = searchTrackTitle($requery);
-		}
-		if ($querytype == "collquery") {
-		$result = searchCollection($requery);
-		}
-
+	$sql = "SELECT a.artist_name, a.id as artist_id, b.album_title, c.track_title, b.id as album_id, b.album_collection, b.album_artist_name, b.album_artist_id";
+	$sql = $sql . " FROM artists a, albums b, tracks c";
+	$sql = $sql . " where a.id = c.track_artist_id";
+	$sql = $sql . " and b.id = c.album_id";
+	$sql = $sql . " and b.album_owned = 1";
+			
+	if ($querytype == "requery") {
+		$requery = mysqli_real_escape_string($con, $requery);
+		$sql = $sql . " and (c.track_title LIKE '%".$requery."%'";
+		$sql = $sql . " OR a.artist_name LIKE '%".$requery."%'";
+		$sql = $sql . " OR b.album_title LIKE '%".$requery."%')";
+		 $sql = $sql . " ORDER BY $sort";
+	}  elseif ($querytype == "albumartistquery") {
+		$requery = mysqli_real_escape_string($con, $requery);
+		$sql = "select a.artist_name, a.id as artist_id, b.id as album_id, b.album_title, b.album_collection from artists a, albums b";
+		$sql = $sql . " where a.id = b.album_artist_id";
+		$sql = $sql . " and a.artist_name LIKE \"%".$requery."%\"";
+		$sql = $sql . " and b.album_owned = 1";
+//			$sql = $sql . " group by album_id";
+		$sql = $sql . " ORDER BY $sort ASC";
+		// echo $sql;
+	} elseif ($querytype == "collquery") {
+		$requery = mysqli_real_escape_string($con, $requery);
+		$sql = "select a.artist_name, a.id as artist_id, b.id as album_id, b.album_title, b.album_collection from artists a, albums b";
+		$sql = $sql . " where a.id = b.album_artist_id";
+		$sql = $sql . " and $query = '$requery'";
+		$sql = $sql . " and b.album_owned = 1";
+//			$sql = $sql . " group by album_id";
+		$sql = $sql . " ORDER BY $sort ASC";
+		// echo $sql;
+	} elseif ($querytype == "albumidquery" || $querytype == "artistidquery"){
+		$sql = $sql . " and $query = '$requery' ";
+		// echo $sql;
+	}	elseif ($query != "nut") {
+		$requery = mysqli_real_escape_string($con, $requery);
+		$sql = $sql . " and $query LIKE \"%".$requery."%\"";
+			if ($query == "album_collection") {
+			$sql = $sql . " group by album_id";
+			// echo $sql;
+			}
+		$sql = $sql . " ORDER BY $sort ASC";
+	} 
+	if ($requery == "") {
+		$sql = $sql . " LIMIT 100";
+		//echo $sql;
+	}
+//		 echo $sql;
+		$result = mysqli_query($con,$sql);
 		$row_cnt = mysqli_num_rows($result);
 		echo "<h3>$row_cnt</h3>\n";
-		while ($row = $result->fetch_assoc())
+		while ($row = mysqli_fetch_array($result))
 		{
 			if (isset($_GET['albumartistquery'])) {
-			$albumartist = $row['album_artist_name'];
+			$albumartist = $row['artist_name'];
 			$trackalbum = $row['album_title'];
-			$artistid = $row['album_artist_id'];
+			$artistid = $row['artist_id'];
 			$albumid = $row['album_id'];
 			$albumcollection = $row['album_collection'];
 			echo "<tr>";
@@ -133,9 +150,9 @@ include("header.php");
 			//echo "<td>" . $trackalbum . "</td> ";
 			}
 			elseif (isset($_GET['collquery'])) {
-			$albumartist = $row['album_artist_name'];
+			$albumartist = $row['artist_name'];
 			$trackalbum = $row['album_title'];
-			$artistid = $row['album_artist_id'];
+			$artistid = $row['artist_id'];
 			$albumid = $row['album_id'];
 			$albumcollection = $row['album_collection'];
 			echo "<tr>";

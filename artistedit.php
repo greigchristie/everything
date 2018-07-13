@@ -18,10 +18,14 @@ $sql = $sql . " where id = $getartist";
 		{
 			$artist_name = $row['artist_name'];
 			$artist_sort_name = $row['artist_sort_name'];
+			if ($artist_sort_name == ""){ $artist_sort_name = "NULL";}
+			$artist_alt_id = $row['artist_alt_id'];
+			if ($artist_alt_id == ""){ $artist_alt_id = "NULL";}
 		}
 			echo "<h4 class='row alert-info'>Edit artist details</h4>";
 			echo "<p class='row'><label>Artist name:&nbsp;&nbsp;</label><span data-editable id='artistname'>$artist_name</span>&nbsp;<i class=\"fa fa-pencil\" style='font-size: 12pt;'  onclick='editNames(\"$getartist|artistname\")'></i><span id='sucartistname'></span></p>";
 			echo "<p class='row'><label>Artist sort name:&nbsp;&nbsp;</label><span data-editable id='artistsortname'>$artist_sort_name</span>&nbsp;<i class=\"fa fa-pencil\" style='font-size: 12pt;'  onclick='editNames(\"$getartist|artistsortname\")'></i><span id='sucartistsortname'></span></p>";
+			echo "<p class='row'><label>Artist alternative:&nbsp;&nbsp;</label><span data-editable id='artistaltname'>$artist_alt_id</span>&nbsp;<i class=\"fa fa-pencil\" style='font-size: 12pt;'  onclick='editNames(\"$getartist|artistaltname\")'></i><span id='sucartistaltname'></span></p>";
 			echo "";
 			echo "<h4 class='row alert-danger'>Select artist</h4>";
 ?>

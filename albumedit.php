@@ -159,7 +159,7 @@ $('body').on('click', '[data-editable]', function(){
     will be applied again.
   */
   $input.one('blur', save).focus();
-  
+  document.getElementById("suc"+$fieldId).innerHTML = "";
 });
 </script>	
 <?php

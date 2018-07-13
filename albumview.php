@@ -60,7 +60,7 @@ $coverimage = $spotify[1];
 <?php
 
 //Just to see what comments look like!
-		$sql = "SELECT a.artist_name, b.album_collection, c.track_title, c.track_artist_id, b.album_artist_id, a.id from artists a, albums b, tracks c";
+		$sql = "SELECT a.artist_name, b.album_collection, c.track_title, c.track_artist_id, c.track_order, b.album_artist_id, a.id from artists a, albums b, tracks c";
 		$sql = $sql . " where a.id = c.track_artist_id";
 		$sql = $sql . " and b.id = album_id";
 		$sql = $sql . " and b.id = \"$albumid\"";
@@ -77,7 +77,7 @@ $coverimage = $spotify[1];
 //		echo "<div class='col-xs-1'>";
 //		echo "</div>";
 		echo "<div class='col-8'>";
-		echo "<ol>";
+		
 		$row_cnt = mysqli_num_rows($result);
 		while ($row = mysqli_fetch_array($result))
 		{
@@ -85,6 +85,7 @@ $coverimage = $spotify[1];
 		$album_artist_id = $row['album_artist_id'];
 		$trackartist = $row['artist_name'];
 		$tracktitle = $row['track_title'];
+		$trackorder = $row['track_order'];
 		$collection = $row['album_collection'];
 		$artistid = $row['id'];
 		$utrackartist = urlencode($trackartist);
@@ -92,7 +93,8 @@ $coverimage = $spotify[1];
 
                 $ualbumartist = urlencode($albumartist);
                 if ($album_artist_id != $track_artist_id) { $various = "true"; } else { $various = "false"; }
-		echo "<div class='row'><div class='col-12'><li>"; //row 3
+		echo "<div class='row'><div class='col-12'>"; //row 3
+		echo "$trackorder. ";
 		 if($various == "true") {
 			echo "<a href='search.php?artistidquery=$artistid'><strong>$trackartist</strong></a> - ";
 			} 
@@ -103,9 +105,9 @@ $coverimage = $spotify[1];
 			echo "<i class=\"fa fa-spotify\" style='font-size: 12pt;'></i>";
 			//}
 			echo "</a>";
-		echo "</li></div></div>\n"; //end row 3
+		echo "</div></div>\n"; //end row 3
 		}
-		echo "</ul>";
+		
 		echo "</div>";
 		echo "<div class='col-4 hidden-xs text-center'>";
 		if ($coverimage != "") {

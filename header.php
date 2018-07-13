@@ -65,6 +65,7 @@ echo "<title>$heres for $query</title>";
           <div class="dropdown-menu">
           	<a href="discsearch.php" class="dropdown-item">ADD NEW MUSIC</a>
           	<a href="createartist.php" class="dropdown-item">CREATE ARTIST</a>
+          	<a href="build.html" class="dropdown-item">CREATE ALBUM</a>
           </div>
         </li> 
 

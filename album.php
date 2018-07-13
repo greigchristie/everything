@@ -1,14 +1,11 @@
 <?php
 include("functions.php");
 include("connected.php");
+include("includes/dbselect.php");
 header('Content-Type:text/html; charset=UTF-8');
-		$sqlc = "select count(id) from albums where album_owned = 1";
-		//echo $sqlc;
-		$resultc = mysqli_query($con,$sqlc);
-		while ($row = mysqli_fetch_row($resultc))
-		{
-		$noalbums = $row[0];
-		}
+		 $count = getAlbums();
+//		$noalbums = 5097;
+		 $noalbums = mysqli_num_rows($count);
 		$offset = 50;
 		
 		include("header.php");
@@ -38,24 +35,18 @@ echo pubpag($page, $noalbums, $heres, $offset);
 
 <p class="lead">Album</p>
 <?php
-//Just to see what comments look like!
-		$sql = "select a.artist_name, b.id, b.album_title, b.album_collection";
-		$sql = $sql . " from artists a, albums b";
-		$sql = $sql . " where a.id = b.album_artist_id";
-		$sql = $sql . " and b.album_owned = 1";
-		$sql = $sql . " order by b.album_title";
-		$sql = $sql . " LIMIT $offset offset $bottom";
-//		echo $sql;
-		$result = mysqli_query($con,$sql);
+		$order = "id desc";
+		$result = getAlbumsPaginated($offset,$bottom,$order);
 		$row_cnt = mysqli_num_rows($result);
-		while ($row = mysqli_fetch_array($result))
+		echo "<h3>$row_cnt</h3>\n";
+		while ($row = $result->fetch_assoc())
 		{
 //		print_r($row);
 		//$trackartist = $row['trackartist'];
 		//$trackname = $row['trackname'];
 		$trackalbum = $row['album_title'];
 		$albumid = $row['id'];
-		$albumartist = $row['artist_name'];
+		$albumartist = $row['album_artist_name'];
 		$albumcollection = $row['album_collection'];
 		//$utrackartist = urlencode($trackartist);
 		//$utrackname = urlencode($trackname);
