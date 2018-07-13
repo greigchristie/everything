@@ -36,7 +36,7 @@ echo pubpag($page, $noalbums, $heres, $offset);
 <p class="lead">Album</p>
 <?php
 		$order = "id desc";
-		$result = getAlbumsPaginated($offset,$bottom,$order);
+		$result = getAlbumsPaginated($offset,$bottom);
 		$row_cnt = mysqli_num_rows($result);
 		echo "<h3>$row_cnt</h3>\n";
 		while ($row = $result->fetch_assoc())

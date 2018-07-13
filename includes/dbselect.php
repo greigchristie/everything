@@ -199,7 +199,7 @@ include('connected.php');
 if ($stmt = $con->prepare("SELECT artists.artist_name, artists.id as artist_id, tracks.track_title, albums.album_title, albums.album_artist_name, albums.album_collection, albums.id as album_id, albums.album_artist_id FROM artists,albums,tracks WHERE artists.id = tracks.track_artist_id and albums.id = tracks.album_id and tracks.track_owned=1 and track_title like concat('%',?,'%')")) {
 
     /* bind parameters for markers */
-    $stmt->bind_param("s", $search);
+    $stmt->bind_param("s", $searchterm);
 
     /* execute query */
     $stmt->execute();
