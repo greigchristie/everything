@@ -1,0 +1,130 @@
+<!DOCTYPE html>   
+<html lang="en">   
+<head>   
+<meta charset="utf-8">   
+<title>Build album</title>   
+<meta name="description"> 
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+$(function() {
+    // $( "#albumArtist" ).autocomplete({
+    //     source: 'autoc.php',
+    //     minLength: 2
+    //   });
+    $( "#albumArtist" ).autocomplete({
+        source: 'autoc.php',
+        minLength: 2,
+        focus: function(event, ui) {
+          event.preventDefault();
+          // $(this).val(ui.item.name);
+        },
+        select: function (event, ui) {
+          event.preventDefault();
+          $(this).val(ui.item.name);
+          $("#albumSortArtist").val(ui.item.sort);
+          $("#hdnId").val(ui.item.id);//Put Id in a hidden field
+          // return false;
+        }
+    });
+});
+</script>
+<script>
+function editNames(str) {
+  console.log('in edit function');
+    if (str == "") {
+      console.log('str empty');
+        document.getElementById("suc"+str).value = "oops";
+        return;
+    } else {
+      // document.getElementById("#edName"+str).innerHTML = "HERE";
+      var nameData = $("#buildForm"+str).serialize();
+      console.log('form data: '+nameData);
+    }
+}
+</script>
+  <script>
+    function addRow(){
+var artistid = $(".artist:last").attr("id");
+var newartid = Number(artistid) + 1;
+//console.log('artid: '+newartid);
+var newRowContent = "<tr><td><input type='text' name='trackNo[]' value='"+newartid+"' size='2'></td><td><input type=\"text\" name=\"trackArtist[]\" class=\"artist\" id=\""+newartid+"\" size='30'></td><td><input type='text' name='sortArtist[]' class='sortartist' id='stist"+newartid+"' size='30'></td><td><input type=\"text\" name=\"trackTitle[]\" size='30'></span><input type=\"hidden\" id=\"hdnId"+newartid+"\" name=\"artistId[]\"></tr>";
+$("#trackInfo").append(newRowContent);
+}
+
+// document.getElementById('#add_btn').onclick=addRow;
+</script>
+<script>
+$(document).on('focus', '.artist', function(){
+    id=$(this).attr('id');
+
+    $( '#'+id ).autocomplete({
+        delay: 300,
+        minLength: 3,
+        source: "autoc.php",  
+        select: function (event, ui){
+          event.preventDefault();
+          $('#'+id).val(ui.item.name);
+          $("#stist"+id).val(ui.item.sort);
+          $("#hdnId"+id).val(ui.item.id);//Put Id in a hidden field
+          return false;
+        }
+    })
+});
+</script>
+<link href="css/bootstrap.css" rel="stylesheet">  
+</head>  
+<body> 
+<div class="container">
+<h2>Build album</h2>
+<form role="form" action="post.php" id="buildForm32564" method="post">
+<div class="row">
+  <div class="form-group  col-md-4">
+    <label for="albumArtist">Album Artist</label>
+    <input type="text" class="form-control input-medium" id="albumArtist" name="albumArtist" placeholder="Enter album artist">
+    <input type="hidden" id="hdnId" name="hdnId" value="">
+  </div>
+</div>
+<div class="row">
+  <div class="form-group  col-md-4">
+    <label for="albumSortArtist">Sort Artist</label>
+    <input type="text" class="form-control input-medium" id="albumSortArtist" name="albumSortArtist" placeholder="Enter album artist">
+  </div>
+</div>
+<div class="row">
+  <div class="form-group  col-md-4">
+    <label for="albumTitle">Album Title</label>
+    <input type="text" class="form-control input-medium"  name="albumTitle" placeholder="Enter album title">
+  </div>
+</div>
+<div class="row">
+  <div class="form-group  col-md-4">
+    <label for="albumTitle">Album Collection</label>
+    <input type="text" class="form-control input-medium"  name="albumCollection" placeholder="Enter album collection">
+  </div>
+</div>
+    <div class="row">
+  <div class="form-group col-md-12" id="trackInfo">
+        <label for="trackInfo">Track Info</label><br>
+    <table>
+    <thead>
+   <tr> <th>No.</th><th>Artist</th><th>Sort Artist</th><th>Title</th></tr>
+    </thead>
+    <tbody>
+    <tr><td><input type="text" name="trackNo[]" value="1" size="2"></td><td><input type="text" name="trackArtist[]" class="artist" id="1" size="30"></td><td><input type="text" name="sortArtist[]" class="sortartist" id="stist1" size="30"></td><td><input type="text" name="trackTitle[]" size="30"></td><input type="hidden" id="hdnId1" name="artistId[]"></tr>
+    </tbody>
+    </table>    
+</div>
+    </div>
+  <!-- <button type="submit" class="btn">Build</button>  -->
+<p><span class="btn btn-sm btn-danger" id="add_btn" onclick="addRow()"><i class="fa fa-plus"></i></span> <button class="btn btn-sm btn-info" type="submit">Edit</button><?p>
+  </form>
+
+  
+</div>
+
+
+</body>
+</html>
