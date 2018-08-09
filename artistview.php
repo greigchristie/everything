@@ -2,27 +2,47 @@
 include("functions.php");
 include("connected.php");
 include("includes/spotify.php");
+include("includes/dbselect.php");
 $getartist = $_GET['artist'];
-$coverimage = "";
+
+// retrieve artist details using artist ID
+		$resultc = getArtistDetailsId($getartist);
+		while ($row1 = mysqli_fetch_array($resultc))
+		{
+		$artist1 = $row1['artist_name'];
+		$altartist = $row1['artist_alt_id'];
+//		echo "$altartist<br>";
+		}
+
+
+if ($altartist != 0){
+	$rez = getArtistDetailsId($altartist);
+	while ($roz = mysqli_fetch_array($rez)){
+		$alt_artist_name = $roz['artist_name'];
+	} // else { $alt_artist_name = "1429xxx"; }
+	}
+
+
+// call spotify spi artist function
+$spotifyArtistName = spotifyArtist($artist1);
+$spotifyArtistSplit = explode(' - ', $spotifyArtistName);
+
+$coverimage = $spotifyArtistSplit[0];
+$artistSpotName = $spotifyArtistSplit[1];
+$spotifyuri = $spotifyArtistSplit[2];
 
 include("header.php");
 ?>
 
-
-<?php
-
-//Just to see what comments look like!
-
-		?>
 <div class="row">
 <div class ="col-12 alert-info">
 <?php
+	if ($spotifyuri != "") {
+	 echo "<h2><a href='".$spotifyuri."'>".ucwords($artist1)."</a></h2>"; 
+	} else {
+	 echo "<h2>". ucwords($artist1)."</h2>"; 
+	}
 
-	 $sql1 = "select artist_name, artist_alt_id from artists where id = $getartist";
-	 $resultz = mysqli_query($con,$sql1);
-	 $oneline = mysqli_fetch_assoc($resultz);
-	 echo "<h2>".$oneline['artist_name']."</h2>";
-	$artistalt = $oneline['artist_alt_id'];	
 	?>
 </div>
 </div>
@@ -31,68 +51,41 @@ include("header.php");
 &nbsp;
 </div>
 </div>
+<!-- <?php 		
+		$dlibrary = "dlibrary";
 
+?> -->
 <div class ="row">
 <div class="col-12">
-Albums by Artist <?php 			if ($artistalt != "") {
-			$swl = "select artist_name from artists where id = $artistalt";
-			$burt = mysqli_query($con,$swl);
-			$twoline = mysqli_fetch_assoc($burt);
-			echo "<a href='artistview.php?artist=$artistalt'>Other releases as ".$twoline['artist_name']."</a>";
-			
-			}?>
+Albums by Artist
 </div>
 </div>
 <div class ="row">
-<div class="col-12">
-<a href="refined.php?req=albumartist&query=<?php echo urlencode($getartist); ?>">Artist Album Tracks</a>
-</div>
 <div class="col-8"><ol class="olalbums">
 <?php
-		$sql = "SELECT a.artist_name, a.artist_alt_id, b.album_collection, b.album_title, b.id, b.album_cover";
-		$sql = $sql . " from artists a, albums b";
-		$sql = $sql . " where b.album_artist_id = a.id";
-		$sql = $sql . " and a.id = \"$getartist\"";
-		$sql = $sql . " and b.album_collection <> \"cdsingle\"";
-		$sql = $sql . " and b.album_owned = 1";
-
-
-		//$sql = $sql . " LIMIT $offset offset $bottom";
-		//$sql = $sql . " group by trackartist";
-//		 echo $sql;
-		$result = mysqli_query($con,$sql);
+	if ($altartist != "0") { echo "<small>Other releases as: <a href='artistview.php?artist=$altartist'>$alt_artist_name</a></small><br>";}
+		$collections = getAlbumCollectionForAlbumArtist($getartist);
+		while ($line = mysqli_fetch_array($collections)) {
+			$collection = $line['album_collection'];
+			echo "From $collection";
+			$result = getAlbumsByArtistIdCollection($getartist,$collection);
 		$row_cnt = mysqli_num_rows($result);
+		echo " - $row_cnt Albums<br>";
+	if ($row_cnt != 0) { 
 		while ($row = mysqli_fetch_array($result))
 		{
-		$albumartist = $row['artist_name'];
-		$artistalt = $row['artist_alt_id'];
 		$albumtitle = $row['album_title'];
 		$albumid = $row['id'];
-		$trackartist = $row['artist_name'];
-		$collection = $row['album_collection'];
-		if ($row['album_cover'] != "") {
-		$coverimage = $row['album_cover'];
-		}
-		//$trackname = $row['trackname'];
-		//$trackalbum = $row['trackalbum'];
-		$ualbumartist = urlencode($albumartist);
-		$ualbumtitle = urlencode($albumtitle);
-
-
-			//echo "<td>$albumartist</td>";
-
-			echo "<div class='row'><h3 class='col-12 lead'><li class='al-$collection'><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></h3></div>\n";
+			
+		echo "<div class='row'><h3 class='col-12 lead'><li class='al-$collection'><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></h3></div>\n";
 			echo "<div class='row'><div class='col-12' id='trackCon$albumid'></div></div>\n";
 
-			/*echo "<td><a href='refined.php?req=trackartist&query=$utrackartist'>$trackartist</a></td>";
-			//echo "<td><a href='refined.php?req=trackname&query=$utrackname'>$trackname</a></td>";
-			//echo "<td><a href='refined.php?req=trackalbum&query=$utrackalbum'>$trackalbum</a></td>";
-			//echo "<td>" . $trackname . "</td> ";
-			//echo "<td>" . $trackalbum . "</td> ";*/
-
 		}
-	
-	// nelly?	} 
+	} 	else {
+	echo "<div class =\"row\">";
+	echo "<div class=\"col-8\"><ol>";
+	}
+		} 
 ?>
 </ol>
 
@@ -117,66 +110,27 @@ Albums by Artist <?php 			if ($artistalt != "") {
 &nbsp;
 </div>
 </div>
-<?php 		if ($row_cnt != 0) { ?>
+
 <div class ="row">
 <div class="col-12">
-CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
+
 </div>
 </div>
-<div class ="row">
-<div class="col-8"><ol class-"olsingles">
 <?php
-		while ($row = mysqli_fetch_array($result))
-		{
-		$albumartist = $row['artist_name'];
-		$albumtitle = $row['album_title'];
-		$albumid = $row['id'];
-		$trackartist = $row['artist_name'];
-		$collection = $row['album_collection'];
-		//$trackname = $row['trackname'];
-		//$trackalbum = $row['trackalbum'];
-		$ualbumartist = urlencode($albumartist);
-		$ualbumtitle = urlencode($albumtitle);
-
-
-			//echo "<td>$albumartist</td>";
-			echo "<div class='row'><div class='col-12 lead'><li><a href='albumview.php?req=albumid&query=$albumid'>$albumtitle</a> ($collection) <i class=\"fa fa-plus-square\" style='font-size: 12pt;' onclick='showUser($albumid)' id='openList$albumid'></i><i class=\"fa fa-minus-square\" style='font-size: 12pt; display: none;' onclick='hideDiv($albumid)' id='closeList$albumid'></i></li></div></div>\n";
-			echo "<div class='row'><div class='col-12' id='trackCon$albumid'></div></div>\n";
-			/*echo "<td><a href='refined.php?req=trackartist&query=$utrackartist'>$trackartist</a></td>";
-			//echo "<td><a href='refined.php?req=trackname&query=$utrackname'>$trackname</a></td>";
-			//echo "<td><a href='refined.php?req=trackalbum&query=$utrackalbum'>$trackalbum</a></td>";
-			//echo "<td>" . $trackname . "</td> ";
-			//echo "<td>" . $trackalbum . "</td> ";*/
-
-		}
-	echo "</ol>";	
-	} 	else {
 	echo "<div class =\"row\">";
 	echo "<div class=\"col-8\">";
-	}
-	// nelly?	} 
+
 ?>
 
 <?php
-
-//Just to see what comments look like!
-		$sql = "SELECT b.album_title, b.id, b.album_collection from albums b, tracks c";
-		$sql = $sql . " where b.id = c.album_id";
-		$sql = $sql . " and (c.track_artist_id = \"$getartist\"";
-		$sql = $sql . " and b.album_artist_id <> \"$getartist\")";
-		$sql = $sql . " group by b.id, b.album_title, b.album_collection";
-		$sql = $sql . " order by b.id";
-		//$sql = $sql . " LIMIT $offset offset $bottom";
-		//$sql = $sql . " group by trackartist";
-		// echo $sql;
-		$result = mysqli_query($con,$sql);
+		$result = getAlbumsByTrackArtistNotAlbumArtist($getartist);
 		$row_cnt = mysqli_num_rows($result);
 		if ($row_cnt != 0) {
 		?>
 
 <div class ="row">
 <div class="col-12">
-<a href="refined.php?req=variousartist&query=<?php echo urlencode($getartist); ?>">Albums featuring Artist</a> <small><?php echo "($row_cnt Albums)"; ?></small>:
+<a href="search.php?variousquery=<?php echo urlencode($getartist); ?>">Albums featuring Artist</a> <small><?php echo "($row_cnt Albums)"; ?></small>:
 </div>
 </div>
 <div class ="row">
@@ -220,21 +174,10 @@ CD Singles by Artist <small><?php echo "($row_cnt CD Singles)"; ?></small>:
 </div>
 <div class="col-4 text-center">
 <?php
-	if ($coverimage == "") {
-
-// call spotify spi artist function
-$spotifyArtistName = spotifyArtist($albumartist);
-$spotifyArtistSplit = explode(' - ', $spotifyArtistName);
-
-$coverimage = $spotifyArtistSplit[0];
-$artistSpotName = $spotifyArtistSplit[1];
-$spotifyuri = $spotifyArtistSplit[2];
+	if ($coverimage != "") {
 	echo "<img src='$coverimage' class='img-fluid'>";
-	echo "<br><em>$artistSpotName</em>";
-	} else { 
-	echo "<img src='$coverimage' class='img-fluid'>";
-	echo "<br><em>$artistname</em>";
-	}
+	echo "<br><em>$artistSpotName</e,>";
+	} else { echo "<h2>Need to implement new Spotify auth</h2>";}
 
 ?>
 </div>

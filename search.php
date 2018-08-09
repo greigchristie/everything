@@ -47,7 +47,13 @@ $sort = $_GET['sort'];
 		$requery = $_GET['collquery'];
 		$query = "album_collection";
 		$querytype = "collquery";
-	}	
+	}
+		if (isset($_GET['variousquery'])){
+		$requery = $_GET['variousquery'];
+		$query = "album_sort_title";
+		$querytype = "variousquery";
+	}
+	
 include("header.php");
 ?>
 
@@ -89,7 +95,6 @@ include("header.php");
 		if ($querytype == "requery") {
 //		echo "keyword $requery";
 		$result = searchKeyword($requery);
-//		print_r($result);
 		}
 		if ($querytype == "albumartistquery") {
 		$result = searchAlbumArtist($requery);
@@ -111,6 +116,9 @@ include("header.php");
 		}
 		if ($querytype == "collquery") {
 		$result = searchCollection($requery);
+		}
+		if ($querytype == "variousquery") {
+		$result = getTracksNotAlbumArtistId($requery);
 		}
 
 		$row_cnt = mysqli_num_rows($result);
