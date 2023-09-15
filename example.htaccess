@@ -1,0 +1,3 @@
+SetEnv DISCOGS_TOKEN (token goes here)
+SetEnv SPOTIFY_CLIENT (token goes here)
+SetEnv SPOTIFY_SECRET (token goes here)
