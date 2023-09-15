@@ -55,7 +55,7 @@ function consolidateArtist() {
 
       var nameData = $("#buildForm").serialize();
       console.log('form data: '+nameData);
-      $.post( "gates/not-edit.php", $("#buildForm").serialize())
+      $.post( "not-edit.php", $("#buildForm").serialize())
   .done(function( data ) {
       $("#consuc").toggleClass("hidden");
   document.getElementById("consuc").innerHTML = data;
@@ -71,7 +71,7 @@ function reassignArtist() {
 
       var nameData = $("#reassignForm").serialize();
       console.log('form data: '+nameData);
-      $.post( "gates/not-edit.php", $("#reassignForm").serialize())
+      $.post( "not-edit.php", $("#reassignForm").serialize())
   .done(function( data ) {
       $("#asssuc").toggleClass("hidden");
   document.getElementById("asssuc").innerHTML = data;

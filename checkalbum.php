@@ -120,9 +120,9 @@ curl_setopt($ch, CURLOPT_USERAGENT, 'everythingMusic/2.0 +http://every-thing.co.
 curl_setopt($ch, CURLOPT_URL,$url);
 // Execute
 $resulz=curl_exec($ch);
-// echo "<pre>";
-// var_dump(json_decode($resulz, true));
-// echo "</pre>";
+ //echo "<pre>";
+ //var_dump(json_decode($resulz, true));
+ //echo "</pre>";
 
 $resulzs = json_decode($resulz);
 // check to see if artist name has a (number) after and get rid of it.
@@ -132,6 +132,7 @@ $albumartist = $resulzs->artists[0]->name;
       $albumartist = $matches[1];
       }
 $tracks = $resulzs->tracklist;
+//print_r($tracks);
 // echo "album: ".$albumtitle."<br>";
 if ($albumtitle == "") {
   $albumtitle = $resulzs->title; 
@@ -181,17 +182,17 @@ if ($albumartist == "Various") { $albumartist = "Various Artists"; }
   </div>
 
 </div>
-    <div class="row">
-  <div class="form-group col-md-5">
-        <label for="trackInfo">Track Info</label>
-    <textarea class="form-control" rows="15" name="trackInfo">
 <?php
 $alltracks = "";
    foreach ($tracks as $track) {
 //print_r($track->artists);
 //echo "<br>";
       $tracktitle = $track->title;
+      if (isset($track->artists)) {
+        
       $trackartist = $track->artists[0]->name;
+      
+    }
 if ($albumartist != "Various Artists") {
 $trackline = $albumartist ." - " . $tracktitle . PHP_EOL;
 $alltracks = $alltracks . $trackline;
@@ -208,7 +209,12 @@ $alltracks = $alltracks . $trackline;
 	$trackline =  $trackartist . " - " . $tracktitle . PHP_EOL;
 	$alltracks = $alltracks . $trackline;
 }
-}
+}?>
+    <div class="row">
+  <div class="form-group col-md-5">
+        <label for="trackInfo">Track Info</label>
+    <textarea class="form-control" rows="15" name="trackInfo">
+<?php
 //		echo 
 		echo rtrim($alltracks);
 		?>
